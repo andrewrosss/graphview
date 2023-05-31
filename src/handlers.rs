@@ -1,10 +1,9 @@
-use serde;
 use axum::extract::Form;
 use axum::extract::Path;
-
+use serde;
 
 #[derive(serde::Deserialize)]
-struct CreateGraphRequest {
+pub struct CreateGraphRequest {
     dot: String,
 }
 
@@ -28,7 +27,7 @@ impl Root {
 }
 
 #[derive(serde::Deserialize)]
-struct UpdateGraphRequest {
+pub struct UpdateGraphRequest {
     dot: String,
 }
 
