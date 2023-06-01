@@ -10,19 +10,15 @@ pub struct CreateGraphRequest {
 pub struct Root {}
 
 impl Root {
-    pub async fn get() {
-        println!("root page");
-
+    pub async fn get() -> String {
         // Show dot editor
-        todo!()
+        "Hello, World!".to_string()
     }
 
-    pub async fn post(form: Form<CreateGraphRequest>) {
+    pub async fn post(form: Form<CreateGraphRequest>) -> String {
         // save dot to the database
-        println!("dot: {}", form.dot);
-
         // redirect to the graph detail page
-        todo!()
+        format!("dot: {}", form.dot)
     }
 }
 
@@ -34,27 +30,21 @@ pub struct UpdateGraphRequest {
 pub struct GraphDetail {}
 
 impl GraphDetail {
-    pub async fn get(Path(id): Path<String>) {
+    pub async fn get(Path(id): Path<String>) -> String {
         // get dot from the database
-        println!("id: {}", id);
-
         // render the graph detail page
-        todo!()
+        format!("id: {}", id)
     }
 
-    pub async fn patch(Path(id): Path<String>, form: Form<UpdateGraphRequest>) {
+    pub async fn patch(Path(id): Path<String>, form: Form<UpdateGraphRequest>) -> String {
         // update dot in the database
-        println!("id: {}, dot: {}", id, form.dot);
-
         // redirect to the graph detail page
-        todo!()
+        format!("id: {}, dot: {}", id, form.dot)
     }
 
-    pub async fn delete(Path(id): Path<String>) {
+    pub async fn delete(Path(id): Path<String>) -> String {
         // delete dot from the database
-        println!("id: {}", id);
-
         // redirect to the root page
-        todo!()
+        format!("id: {}", id)
     }
 }
