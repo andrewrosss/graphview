@@ -8,3 +8,5 @@ axum = { version = "0.6", features = ["tracing"] }
 handlebars = "4"
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["full"] }
+tower = { version = "0.4", features = ["util"] }
+tower-http = { version = "0.4.0", features = ["fs", "trace"] }
