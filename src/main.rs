@@ -18,9 +18,6 @@ async fn main() {
         .make_span_with(DefaultMakeSpan::new().level(Level::INFO))
         .on_response(DefaultOnResponse::new().level(Level::INFO));
 
-    // serve static files
-    let public = ServeDir::new("public");
-
     // Build the application
     let app = Router::new()
         .route("/", get(handlers::Root::get).post(handlers::Root::post))
@@ -30,7 +27,7 @@ async fn main() {
                 .patch(handlers::GraphDetail::patch)
                 .delete(handlers::GraphDetail::delete),
         )
-        .fallback_service(public)
+        .nest_service("/static", ServeDir::new("public"))
         .layer(tracing_layer);
 
     axum::Server::bind(&SocketAddr::from(([127, 0, 0, 1], 3000)))
