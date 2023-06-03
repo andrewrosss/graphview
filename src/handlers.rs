@@ -1,5 +1,8 @@
 use axum::extract::Form;
 use axum::extract::Path;
+use axum::response::Html;
+use axum::response::IntoResponse;
+use handlebars::Handlebars;
 use serde;
 
 #[derive(serde::Deserialize)]
@@ -10,9 +13,14 @@ pub struct CreateGraphRequest {
 pub struct Root {}
 
 impl Root {
-    pub async fn get() -> String {
-        // Show dot editor
-        "Hello, World!".to_string()
+    pub async fn get() -> impl IntoResponse {
+        let mut hbs = Handlebars::new();
+        hbs.register_template_file("layout", "src/templates/layout.hbs")
+            .unwrap();
+        hbs.register_template_file("main", "src/templates/index.hbs")
+            .unwrap();
+
+        Html(hbs.render("layout", &()).unwrap())
     }
 
     pub async fn post(form: Form<CreateGraphRequest>) -> String {
