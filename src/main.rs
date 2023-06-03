@@ -1,5 +1,6 @@
 mod handlers;
 
+use std::net::Ipv4Addr;
 use std::net::SocketAddr;
 
 use axum::routing::get;
@@ -30,11 +31,15 @@ async fn main() {
         .nest_service("/static", ServeDir::new("public"))
         .layer(tracing_layer);
 
+    let host: Ipv4Addr = std::env::var("HOST")
+        .unwrap_or_else(|_| "127.0.0.1".to_string())
+        .parse()
+        .unwrap();
     let port: u16 = std::env::var("PORT")
         .unwrap_or_else(|_| "3000".to_string())
         .parse()
         .unwrap();
-    axum::Server::bind(&SocketAddr::from(([127, 0, 0, 1], port)))
+    axum::Server::bind(&SocketAddr::from((host, port)))
         .serve(app.into_make_service())
         .await
         .unwrap();
