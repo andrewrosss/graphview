@@ -53,3 +53,35 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+body {
+  padding-inline: var(--size-3);
+}
+
+.nav-container {
+  padding-block: var(--size-2);
+}
+
+.nav-container h1 {
+  font-size: var(--font-size-6);
+}
+
+.dot-editor-container {
+  margin-block-start: var(--size-8);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--size-3);
+}
+
+.dot-editor-container > label {
+  font-weight: var(--font-weight-6);
+}
+
+.view-button {
+  align-self: flex-end;
+}
+
+textarea {
+  font-family: var(--font-mono);
+}
