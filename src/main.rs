@@ -30,7 +30,11 @@ async fn main() {
         .nest_service("/static", ServeDir::new("public"))
         .layer(tracing_layer);
 
-    axum::Server::bind(&SocketAddr::from(([127, 0, 0, 1], 3000)))
+    let port: u16 = std::env::var("PORT")
+        .unwrap_or_else(|_| "3000".to_string())
+        .parse()
+        .unwrap();
+    axum::Server::bind(&SocketAddr::from(([127, 0, 0, 1], port)))
         .serve(app.into_make_service())
         .await
         .unwrap();
