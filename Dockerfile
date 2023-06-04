@@ -1,12 +1,12 @@
 # Extract graphviz and dependencies
-FROM rust:1.70-bullseye AS deb_extractor
+FROM rust:slim-bookworm AS deb_extractor
 RUN cd /tmp && \
     apt-get update && apt-get download \
         graphviz libgvc6 libcgraph6 libltdl7 libxdot4 libcdt5 libpathplan4 libexpat1 zlib1g libgcc-s1 && \
     mkdir /dpkg && \
     for deb in *.deb; do dpkg --extract $deb /dpkg || exit 10; done
 
-FROM rust:1.70-bullseye AS builder
+FROM rust:slim-bookworm AS builder
 WORKDIR /app
 COPY . .
 RUN cargo build --release
