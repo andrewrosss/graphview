@@ -5,4 +5,10 @@
 
     <button class="view-button" type="submit">View</button>
   </form>
+
+  {{#if graph_svg}}
+    <figure class="graph-container">
+      {{{graph_svg}}}
+    </figure>
+  {{/if}}
 </main>
