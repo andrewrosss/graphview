@@ -80,6 +80,15 @@ body {
 
 .view-button {
   align-self: flex-end;
+  min-width: 10rem;
+}
+
+.graph-container {
+  margin-block: var(--size-8);
+}
+
+.graph {
+  border-radius: var(--size-2);
 }
 
 textarea {

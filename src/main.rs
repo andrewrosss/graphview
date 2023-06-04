@@ -1,4 +1,5 @@
 mod handlers;
+mod templates;
 
 use std::net::Ipv4Addr;
 use std::net::SocketAddr;
@@ -28,7 +29,7 @@ async fn main() {
                 .patch(handlers::GraphDetail::patch)
                 .delete(handlers::GraphDetail::delete),
         )
-        .nest_service("/static", ServeDir::new("public"))
+        .nest_service("/static", ServeDir::new("src/static"))
         .layer(tracing_layer);
 
     let host: Ipv4Addr = std::env::var("HOST")
