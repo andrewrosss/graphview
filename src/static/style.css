@@ -84,9 +84,29 @@ textarea {
   font-family: var(--font-mono);
 }
 
+#button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--size-3);
+}
+
+#copy-url-button {
+}
+
 #view-button {
-  align-self: flex-end;
   min-width: 10rem;
+}
+
+@media (width <= 480px) {
+  #button-container {
+    justify-content: space-between;
+  }
+
+  #button-container > button {
+    flex-grow: 1;
+    min-width: 0;
+  }
 }
 
 #graph-container {

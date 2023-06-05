@@ -31,7 +31,10 @@
         <label for="dot">Graph description (.dot)</label>
         <textarea id="dot" name="dot" rows="10" cols="80">{{dot}}</textarea>
 
-        <button id="view-button" class="view-button" type="submit">View</button>
+        <div id="button-container">
+          <button id="copy-url-button" type="button">URL</button>
+          <button id="view-button" type="submit">View</button>
+        </div>
       </form>
 
       {{#if graph_svg}}

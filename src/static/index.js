@@ -19,3 +19,26 @@ window.addEventListener("DOMContentLoaded", () => {
   textarea.value = dot;
   textarea.dispatchEvent(new Event('input'));
 });
+
+/** @type {HTMLButtonElement | null} */
+const button = document.getElementById('copy-url-button');
+
+
+let copyUrlButtonTimeout = null;
+button?.addEventListener('click', () => {
+  if (copyUrlButtonTimeout) {
+    clearTimeout(copyUrlButtonTimeout);
+  }
+  const previousText = button.textContent;
+  button.textContent = 'Copied! 🎉';
+  copyUrlButtonTimeout = setTimeout(() => {
+    button.textContent = previousText;
+  }, 2000);
+
+  const dot = textarea.value;
+  const compressed = LZString.compressToEncodedURIComponent(dot);
+  const url = new URL(location);
+  url.hash = compressed;
+  history.replaceState(null, '', url);
+  navigator.clipboard.writeText(url.toString());
+});
