@@ -22,14 +22,8 @@ async fn main() {
 
     // Build the application
     let app = Router::new()
-        .route("/", get(handlers::Root::get).post(handlers::Root::post))
-        .route(
-            "/g/:id",
-            get(handlers::GraphDetail::get)
-                .patch(handlers::GraphDetail::patch)
-                .delete(handlers::GraphDetail::delete),
-        )
         .nest_service("/static", ServeDir::new("src/static"))
+        .route("/", get(handlers::Root::get).post(handlers::Root::post))
         .layer(tracing_layer);
 
     let host: Ipv4Addr = std::env::var("HOST")

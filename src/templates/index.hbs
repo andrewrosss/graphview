@@ -1,14 +1,42 @@
-<main>
-  <form class="dot-editor-container" action="/" method="post">
-    <label for="dot">Graph description (.dot)</label>
-    <textarea id="dot" name="dot" rows="10" cols="80">{{dot}}</textarea>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphview</title>
 
-    <button class="view-button" type="submit">View</button>
-  </form>
+    <link rel="stylesheet" href="https://unpkg.com/open-props" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/open-props/normalize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/open-props/buttons.min.css"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
 
-  {{#if graph_svg}}
-    <figure class="graph-container">
-      {{{graph_svg}}}
-    </figure>
-  {{/if}}
-</main>
+  <body>
+    <nav class="nav-container">
+      <h1>
+        <a href="/">Graphview</a>
+      </h1>
+    </nav>
+
+    <main>
+      <form class="dot-editor-container" action="/" method="post">
+        <label for="dot">Graph description (.dot)</label>
+        <textarea id="dot" name="dot" rows="10" cols="80">{{dot}}</textarea>
+
+        <button class="view-button" type="submit">View</button>
+      </form>
+
+      {{#if graph_svg}}
+        <figure class="graph-container">
+          {{{graph_svg}}}
+        </figure>
+      {{/if}}
+    </main>
+  </body>
+</html>
