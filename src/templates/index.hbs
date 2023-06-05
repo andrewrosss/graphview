@@ -20,22 +20,22 @@
   </head>
 
   <body>
-    <nav class="nav-container">
+    <nav id="main-nav">
       <h1>
         <a href="/">Graphview</a>
       </h1>
     </nav>
 
     <main>
-      <form class="dot-editor-container" action="/" method="post">
+      <form id="dot-form" action="/" method="post">
         <label for="dot">Graph description (.dot)</label>
         <textarea id="dot" name="dot" rows="10" cols="80">{{dot}}</textarea>
 
-        <button class="view-button" type="submit">View</button>
+        <button id="view-button" class="view-button" type="submit">View</button>
       </form>
 
       {{#if graph_svg}}
-        <figure class="graph-container">
+        <figure id="graph-container">
           {{{graph_svg}}}
         </figure>
       {{/if}}

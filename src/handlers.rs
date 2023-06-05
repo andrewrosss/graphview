@@ -32,7 +32,7 @@ impl Root {
             .unwrap();
 
         let graph_svg = dot_to_svg(&form.dot);
-        let graph_svg = graph_svg.replace("<svg ", "<svg class=\"graph\" ");
+        let graph_svg = graph_svg.replace("<svg ", "<svg id=\"graph\" ");
 
         Html(
             hbs.render("index", &json!({"dot": form.dot, "graph_svg": graph_svg}))
