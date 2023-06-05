@@ -31,6 +31,7 @@ impl Root {
 
     pub async fn post(form: Form<CreateGraphRequest>) -> impl IntoResponse {
         let mut hbs = Handlebars::new();
+        hbs.set_prevent_indent(true);
         hbs.register_template_string("layout", templates::LAYOUT)
             .unwrap();
         hbs.register_template_string("main", templates::INDEX)

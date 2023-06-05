@@ -1,6 +1,8 @@
+todo.md
 t.*
 *.log
 .vscode
+*.dot
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/rust

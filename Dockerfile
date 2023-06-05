@@ -1,4 +1,5 @@
 # Extract graphviz and dependencies
+# Inspired by: https://github.com/evanj/pprofweb/blob/ba2a42026528cf90f998acf5f6a51fe82f12bff9/Dockerfile
 FROM rust:bookworm AS deb_extractor
 RUN cd /tmp && \
     apt-get update && apt-get download \
