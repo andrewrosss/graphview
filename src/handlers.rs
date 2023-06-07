@@ -15,13 +15,14 @@ pub struct CreateGraphRequest {
 }
 
 pub struct Root {}
-
+// json!({"error": Some("It looks like something went wrong parsing the graph description")})
 impl Root {
     pub async fn get() -> impl IntoResponse {
         let mut hbs = Handlebars::new();
         hbs.register_template_string("index", templates::INDEX)
             .unwrap();
 
+        // Html(hbs.render("index", &()).unwrap())
         Html(hbs.render("index", &()).unwrap())
     }
 
@@ -31,21 +32,36 @@ impl Root {
         hbs.register_template_string("index", templates::INDEX)
             .unwrap();
 
-        let graph_svg = dot_to_svg(&form.dot);
-        let graph_svg = graph_svg.replace("<svg ", "<svg id=\"graph\" ");
-
-        Html(
-            hbs.render("index", &json!({"dot": form.dot, "graph_svg": graph_svg}))
+        match dot_to_svg(&form.dot) {
+            Ok(graph_svg) => {
+                let graph_svg = graph_svg.replace("<svg ", "<svg id=\"graph\" ");
+                Html(
+                    hbs.render("index", &json!({"dot": form.dot, "graph_svg": graph_svg}))
+                        .unwrap(),
+                )
+            }
+            Err(DotError { code, message }) => Html(
+                hbs.render(
+                    "index",
+                    &json!({"dot": form.dot, "error": {"code": code, "message": message}}),
+                )
                 .unwrap(),
-        )
+            ),
+        }
     }
 }
 
-fn dot_to_svg(dot: &str) -> String {
+struct DotError {
+    code: Option<i32>,
+    message: Option<String>,
+}
+
+fn dot_to_svg(dot: &str) -> anyhow::Result<String, DotError> {
     let mut child = process::Command::new("dot")
         .arg("-Tsvg")
         .stdin(process::Stdio::piped())
         .stdout(process::Stdio::piped())
+        .stderr(process::Stdio::piped())
         .spawn()
         .expect("Failed to execute dot");
 
@@ -57,5 +73,25 @@ fn dot_to_svg(dot: &str) -> String {
     }
 
     let output = child.wait_with_output().expect("Failed to read stdout");
-    String::from_utf8(output.stdout).expect("Output was not valid UTF-8")
+
+    if !output.status.success() {
+        return Err(DotError {
+            code: output.status.code(),
+            message: String::from_utf8_lossy(&output.stderr)
+                .trim()
+                .to_string()
+                .into(),
+        });
+        // return Err(io::Error::new(
+        //     io::ErrorKind::Other,
+        //     format!(
+        //         "Exit code: {}\nMessage: {}\nPrevious Input:\n\n{}",
+        //         output.status.code().unwrap_or(-1),
+        //         String::from_utf8_lossy(&output.stderr).trim(),
+        //         dot
+        //     ),
+        // ));
+    }
+
+    Ok(String::from_utf8_lossy(&output.stdout).to_string())
 }

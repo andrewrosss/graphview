@@ -42,6 +42,33 @@
           {{{graph_svg}}}
         </figure>
       {{/if}}
+
+      {{#if error}}
+        <div id="error-container">
+          <h2>Error!</h2>
+          <div id="error-grid">
+            {{! exit code row }}
+            <p class="error-label">Exit code</p>
+            <p class="error-value">
+              {{#if error.code}}
+                {{error.code}}
+              {{else}}
+                Unknown
+              {{/if}}
+            </p>
+
+            {{! error message row }}
+            <p class="error-label">Message</p>
+            <p class="error-value">
+              {{#if error.message}}
+                {{error.message}}
+              {{else}}
+                Service error
+              {{/if}}
+            </p>
+          </div>
+        </div>
+      {{/if}}
     </main>
   </body>
 </html>
