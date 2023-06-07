@@ -22,6 +22,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 /** @type {HTMLButtonElement | null} */
 const button = document.getElementById('copy-url-button');
+const buttonText = button?.textContent;
 
 
 let copyUrlButtonTimeout = null;
@@ -29,7 +30,7 @@ button?.addEventListener('click', () => {
   if (copyUrlButtonTimeout) {
     clearTimeout(copyUrlButtonTimeout);
   }
-  const previousText = button.textContent;
+  const previousText = buttonText ?? "URL"; // should never need the fallback
   button.textContent = 'Copied! 🎉';
   copyUrlButtonTimeout = setTimeout(() => {
     button.textContent = previousText;
