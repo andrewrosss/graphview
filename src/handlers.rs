@@ -82,15 +82,6 @@ fn dot_to_svg(dot: &str) -> anyhow::Result<String, DotError> {
                 .to_string()
                 .into(),
         });
-        // return Err(io::Error::new(
-        //     io::ErrorKind::Other,
-        //     format!(
-        //         "Exit code: {}\nMessage: {}\nPrevious Input:\n\n{}",
-        //         output.status.code().unwrap_or(-1),
-        //         String::from_utf8_lossy(&output.stderr).trim(),
-        //         dot
-        //     ),
-        // ));
     }
 
     Ok(String::from_utf8_lossy(&output.stdout).to_string())
