@@ -58,3 +58,62 @@ button?.addEventListener('click', () => {
   history.replaceState(null, '', url);
   navigator.clipboard.writeText(url.toString());
 });
+
+// download svg
+/** @type {HTMLButtonElement | null} */
+const downloadSvgButton = document.getElementById('download-svg-button');
+
+downloadSvgButton?.addEventListener('click', () => {
+  const svg = document.getElementById('graph');
+  const svgData = svg.outerHTML;
+  const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+  const svgUrl = URL.createObjectURL(svgBlob);
+  const downloadLink = document.createElement("a");
+  downloadLink.href = svgUrl;
+  downloadLink.download = "graph.svg";
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+});
+
+// download png
+/** @type {HTMLButtonElement | null} */
+const downloadPngButton = document.getElementById('download-png-button');
+
+const SCALE = 2;
+downloadPngButton?.addEventListener('click', () => {
+  // Serialize SVG
+  const svgElement = document.getElementById('graph');
+  const svgData = new XMLSerializer().serializeToString(svgElement);
+  const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+  const svgUrl = URL.createObjectURL(svgBlob);
+
+  // Create a new Image object
+  const img = new Image();
+
+  // When the image has loaded, draw it to the canvas
+  img.onload = function () {
+    // Create a canvas
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const svgSize = svgElement.getBoundingClientRect();
+
+    canvas.width = svgSize.width * SCALE;
+    canvas.height = svgSize.height * SCALE;
+
+    // Draw the image to the canvas
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    // Now get the PNG data from the canvas
+    const pngData = canvas.toDataURL('image/png');
+
+    // Create a download link and click it
+    const downloadLink = document.createElement('a');
+    downloadLink.href = pngData;
+    downloadLink.download = 'graph.png';
+    downloadLink.click();
+  };
+  // Load the SVG URL into the image
+  img.src = svgUrl;
+});
