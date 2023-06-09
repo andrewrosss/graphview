@@ -82,25 +82,17 @@ const downloadPngButton = document.getElementById('download-png-button');
 
 const SCALE = 2;
 downloadPngButton?.addEventListener('click', () => {
-  // Serialize SVG
-  const svgElement = document.getElementById('graph');
-  const svgData = new XMLSerializer().serializeToString(svgElement);
+  const svg = document.getElementById('graph');
+  const svgData = new XMLSerializer().serializeToString(svg);
   const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
   const svgUrl = URL.createObjectURL(svgBlob);
-
-  // Create a new Image object
   const img = new Image();
-
-  // When the image has loaded, draw it to the canvas
   img.onload = function () {
-    // Create a canvas
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-    const svgSize = svgElement.getBoundingClientRect();
-
-    canvas.width = svgSize.width * SCALE;
-    canvas.height = svgSize.height * SCALE;
+    canvas.width = svg.width.baseVal.value * 2;
+    canvas.height = svg.height.baseVal.value * 2;
 
     // Draw the image to the canvas
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
