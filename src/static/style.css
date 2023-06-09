@@ -100,7 +100,8 @@ textarea {
 
 @media (width <= 480px) {
   #button-container {
-    justify-content: space-between;
+    flex-direction: column-reverse;
+    align-items: stretch;
   }
 
   #button-container > button {
